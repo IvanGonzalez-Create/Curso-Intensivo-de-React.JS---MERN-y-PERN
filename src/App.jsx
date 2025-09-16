@@ -1,86 +1,11 @@
-import { useEffect, useState } from "react"
-import { DataBase } from "./Data/DB_CoffeMaker.js"
 import Header from "./Components/Header"
 import Cafetera from "./Components/Cafetera"
-
+import { useCarrito } from "./hooks/useCarrito"
 
 function App() {
 
-  const CarritoInicial = () => {
-    const LocalStorageCarrito = localStorage.getItem('Carrito')
-    return LocalStorageCarrito ? JSON.parse(LocalStorageCarrito) : []
-  }
-
-  const [Data, setData] = useState(DataBase)
-  const [Carrito, setCarrito] = useState(CarritoInicial)
-
-  useEffect (() => {
-    localStorage.setItem('Carrito',JSON.stringify(Carrito))
-  },[Carrito])
- 
-
-function AgregarCarrito(Element) {
-
-    const ElementExist = Carrito.findIndex(cafetera => cafetera.id === Element.id  )    
-    if (ElementExist >=0) {
-      
-      if(Carrito[ElementExist].quantity >= 10) return 
-      const UpdatedCarrito = [...Carrito]
-      UpdatedCarrito[ElementExist].quantity++
-      setCarrito(UpdatedCarrito)
-    
-    } else {
-
-      Element.quantity = 1
-      setCarrito([...Carrito, Element])
-    }      
-  }
-
-function EliminarElemento(id) {
-    setCarrito(prevCarrito => prevCarrito.filter(Cafetera => Cafetera.id !== id))
-  }
-
-
-
-function IncrementarCantidad(id) {
-    const ActualizarCarrito = Carrito.map(Item => {
-
-      if(Item.id === id && Item.quantity < 10) {
-
-      return{
-           ...Item,
-        quantity: Item.quantity + 1
-      }
-       
-      } else {
-        return Item  
-      }
-
-  })
-
-  setCarrito(ActualizarCarrito) 
-}
-
-
-function DecrementarCantidad(id) {
-  const ActualizarCarrito = Carrito.map(Item => {
-    if (Item.id === id && Item.quantity > 1) {
-      return {
-        ...Item,
-        quantity: Item.quantity - 1
-      }
-    } else {
-      return Item
-    }
-
-  })
-  setCarrito(ActualizarCarrito)
- }
-
-function VaciarCarrito() {
-  setCarrito([])
-}
-
+  const {Data,Carrito,AgregarCarrito,EliminarElemento,IncrementarCantidad,DecrementarCantidad,
+    VaciarCarrito, TotalCarrito, CarritoVacio} = useCarrito()
 
 
   return (
@@ -92,6 +17,9 @@ function VaciarCarrito() {
     IncrementarCantidad = {IncrementarCantidad} 
     DecrementarCantidad = {DecrementarCantidad}   
     VaciarCarrito = {VaciarCarrito}
+    TotalCarrito = {TotalCarrito}
+    CarritoVacio = {CarritoVacio}
+    
     />
  
     <main className="container-xl mt-5">
@@ -104,7 +32,6 @@ function VaciarCarrito() {
           <Cafetera
           key={cafetera.id}
           cafetera = {cafetera}
-          setCarrito = {setCarrito}
           setAgregarCarrito = {AgregarCarrito}
           />
           ))}      

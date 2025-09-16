@@ -1,15 +1,8 @@
-import { useMemo } from "react";
 import Cafetera from "./Cafetera";
 
-export default function Header({Carrito, EliminarElemento, IncrementarCantidad,DecrementarCantidad,VaciarCarrito}) {
+export default function Header({Carrito, EliminarElemento, IncrementarCantidad,DecrementarCantidad,VaciarCarrito, TotalCarrito,CarritoVacio}) {
 
     
-    const TotalCarrito = useMemo( () => Carrito.reduce( (acumulador,item) => acumulador + (item.precio * item.quantity), 0)
-    ,[Carrito])
-
-    const isEmpty = useMemo(() => Carrito.length ===  0,[Carrito])
-
-
     return(
 
             <header className="py-5 header">
@@ -27,7 +20,7 @@ export default function Header({Carrito, EliminarElemento, IncrementarCantidad,D
                         <img className="img-fluid" src="/img/carrito.png" alt="imagen carrito" />
 
                         <div id="carrito" className="bg-white p-3">
-                            {isEmpty ? 
+                            {CarritoVacio ? 
                             <p className="text-center">El carrito esta vacio </p> 
                             :  (
                         <>
