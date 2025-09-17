@@ -1,13 +1,7 @@
-import { useMemo } from "react";
 import Cafetera from "./Cafetera";
 
-export default function Header({Carrito, EliminarElemento, IncrementarCantidad,DecrementarCantidad,VaciarCarrito}) {
+export default function Header({Carrito, EliminarElemento, IncrementarCantidad,DecrementarCantidad,VaciarCarrito, TotalCarrito,CarritoVacio}) {
 
-    
-    const TotalCarrito = useMemo( () => Carrito.reduce( (acumulador,item) => acumulador + (item.precio * item.quantity), 0)
-    ,[Carrito])
-
-    const isEmpty = useMemo(() => Carrito.length ===  0,[Carrito])
 
 
     return(
@@ -29,7 +23,7 @@ export default function Header({Carrito, EliminarElemento, IncrementarCantidad,D
                         <div id="carrito" className="bg-white p-3">
                             {isEmpty ? 
                             <p className="text-center">El carrito esta vacio </p> 
-                            :  (
+                             :  (
                         <>
                             <table className="w-100 table">
                                 <thead>
@@ -96,6 +90,8 @@ export default function Header({Carrito, EliminarElemento, IncrementarCantidad,D
                 </nav>
             </div>
         </div>
+        
+
     </header>
  
     )
